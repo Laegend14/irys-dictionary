@@ -21,6 +21,16 @@
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
+    .daily-keyword {
+      margin: 2rem auto;
+      max-width: 600px;
+    }
+
+    .daily-keyword .word-card {
+      background: #1abc9c;
+      border: 2px solid #fff;
+    }
+
     .search-box {
       margin: 2rem;
     }
@@ -90,6 +100,9 @@
 <body>
   <header>Irys Dictionary 🌊✨</header>
   
+  <!-- Daily Keyword section -->
+  <div class="daily-keyword" id="daily-keyword"></div>
+
   <div class="search-box">
     <input type="text" id="search" placeholder="Search for a word...">
   </div>
@@ -108,7 +121,7 @@
 
   <script>
     const words = [
-        { word: "Irys", definition: "Irys is the magical bridge between Web2 and Web3. It makes storing and accessing data permanent, reliable, and fun, so developers and users can stop worrying about data disappearing into the void." },
+      { word: "Irys", definition: "Irys is the magical bridge between Web2 and Web3. It makes storing and accessing data permanent, reliable, and fun, so developers and users can stop worrying about data disappearing into the void." },
       { word: "Bundling", definition: "Bundling is like a digital shopping bag — Irys packs multiple transactions together into one, saving costs and making blockchain storage smoother and faster." },
       { word: "Data Availability", definition: "This means making sure that data is always present, verifiable, and accessible for anyone who needs it. On Irys, once data is stored, it's there forever like an eternal library." },
       { word: "Node", definition: "A node is a computer that joins the Irys network party. It stores data, verifies transactions, and helps keep the system trustworthy." },
@@ -118,8 +131,6 @@
       { word: "Ethereum", definition: "Ethereum is one of the biggest blockchains where Irys settles transactions. Think of it as Irys’ reliable banker." },
       { word: "Storage Layer", definition: "This is the layer of Irys where data lives. It’s like the deep ocean floor of the blockchain, permanent and untouchable." },
       { word: "Gateway", definition: "A gateway is the front door into Irys. Developers and users use gateways to upload or fetch their favorite data." },
-
-      // --- You can imagine we keep going until we reach 100+ ---
       { word: "Bundlr", definition: "Bundlr is the speed booster for Irys. It batches data into blockchain transactions so efficiently, it’s like blockchain on turbo mode." },
       { word: "Transaction", definition: "Every time you interact with Irys, that action becomes a transaction. These are recorded, verified, and never forgotten." },
       { word: "Wallet", definition: "Your blockchain passport. You need it to pay for uploads and sign transactions on Irys." },
@@ -133,6 +144,7 @@
     ];
 
     const dictionaryDiv = document.getElementById("dictionary");
+    const dailyKeywordDiv = document.getElementById("daily-keyword");
 
     function displayWords(list) {
       dictionaryDiv.innerHTML = "";
@@ -147,6 +159,20 @@
       });
     }
 
+    // NEW: Daily keyword feature
+    function showDailyKeyword() {
+      const today = new Date();
+      const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 1000 / 60 / 60 / 24);
+      const index = dayOfYear % words.length;
+      const entry = words[index];
+      dailyKeywordDiv.innerHTML = `
+        <div class="word-card">
+          <div class="word">🌟 Daily Keyword: ${entry.word}</div>
+          <div class="definition">${entry.definition}</div>
+        </div>
+      `;
+    }
+
     document.getElementById("search").addEventListener("input", (e) => {
       const query = e.target.value.toLowerCase();
       const filtered = words.filter(entry => 
@@ -156,7 +182,9 @@
       displayWords(filtered);
     });
 
+    // Initial display
     displayWords(words);
+    showDailyKeyword();
   </script>
 </body>
 </html>
